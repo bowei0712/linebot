@@ -53,10 +53,16 @@ python manage.py startapp test_html
 # 檢視commit
 - git log
 
-#綁定遠端倉庫
+# 綁定遠端倉庫
 - git remote add origin https://github.com/bowei0712/linebot.git
 remote(遙控) add(增加) origin(原點)
 - git remote -v(帶出當下綁定的是哪個倉庫)
 
 - git push -u origin master(第一次要這樣做)
 - git push(第二次開始)
+
+# 複製專案
+- git clone https://github.com/bowei0712/linebot
+
+# 同步專案
+- python manage.py migrate

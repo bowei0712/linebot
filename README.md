@@ -53,6 +53,7 @@ python manage.py startapp test_html
 
 # 檢視commit
 - git log
+- git log --oneline(整理成一列式)
 
 # 綁定遠端倉庫
 - git remote add origin https://github.com/bowei0712/linebot.git

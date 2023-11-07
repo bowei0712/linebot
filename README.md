@@ -58,4 +58,5 @@ python manage.py startapp test_html
 remote(遙控) add(增加) origin(原點)
 - git remote -v(帶出當下綁定的是哪個倉庫)
 
-- git push -u origin master
+- git push -u origin master(第一次要這樣做)
+- git push(第二次開始)

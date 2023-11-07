@@ -46,6 +46,7 @@ python manage.py startapp test_html
 
 # 確認儲存
 - git commit -m "message(做了什麼動作EX:初始化專案)"
+- git commit -am "message" --am = add跟m一起使用
 
 # 檢視狀態
 - git status
@@ -58,6 +59,7 @@ python manage.py startapp test_html
 remote(遙控) add(增加) origin(原點)
 - git remote -v(帶出當下綁定的是哪個倉庫)
 
+# 同步雲端倉庫
 - git push -u origin master(第一次要這樣做)
 - git push(第二次開始)
 

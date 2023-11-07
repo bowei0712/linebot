@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from linebot import LineBotApi, WebhookHandler, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
-from linebot.models import MessageEvent, TextSendMessage
+from linebot.models import MessageEvent, TextSendMessage, ImageSendMessage
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 parse = WebhookParser(settings.LINE_CHANNEL_SECRET)
@@ -29,11 +29,30 @@ def callback(request):
             return HttpResponseBadRequest()
         for event in events:
             if isinstance(event, MessageEvent):
-                # if event.message.text=='hello':
+                message = event.message.text
+                message_object = None
+
+                if message == "你好":
+                    message_object = TextSendMessage(text="你好!")
+                elif "樂透" in message:
+                    reply_message = "預測號碼為:\n" + get_lottory_number()
+                    message_object = TextSendMessage(text=reply_message)
+                elif "捷運" in message:
+                    if "台中" in message:
+                        image_url = "https://assets.piliapp.com/s3pxy/mrt_taiwan/taichung/20201112_zh.png?v=2"
+                    elif "高雄" in message:
+                        image_url = "https://assets.piliapp.com/s3pxy/mrt_taiwan/kaohsiung/202210_zh.png"
+                    else:
+                        image_url = "https://assets.piliapp.com/s3pxy/mrt_taiwan/taipei/20230214_zh.png"
+                    message_object = ImageSendMessage(
+                        original_content_url=image_url, preview_image_url=image_url
+                    )
+                else:
+                    message_object = TextSendMessage(text="我不懂你的意思!")
+
                 line_bot_api.reply_message(
                     event.reply_token,
-                    # TextSendMessage(text='hello world')
-                    TextSendMessage(text=event.message.text),
+                    message_object,
                 )
         return HttpResponse()
     else:
@@ -56,6 +75,13 @@ def get_lottory2(request):
     x = random.randint(1, 50)
     number_str = " ".join(map(str, numbers))
     return render(request, "lottory.html", {"numbers": number_str, "x": x})
+
+
+def get_lottory_number():
+    numbers = sorted(random.sample(range(1, 50), 6))
+    x = random.randint(1, 50)
+    number_str = " ".join(map(str, numbers)) + f"特別號:{x}"
+    return number_str
 
 
 def get_lottory(request):
